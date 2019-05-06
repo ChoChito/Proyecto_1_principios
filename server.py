@@ -10,8 +10,29 @@ import threading
 import sys
 import pickle
 
+class client():
+
+  def __init__(self, conn, balance, username):
+      self.username=username
+      self.balance=balance
+      self.conn=conn
+
+  def getBalance(self):
+      return(self.balance)
+  
+  def getUsername(self):
+      return(self.username)
+      
+  def getClient(self):
+      return(self.conn)
+      
+
+
+
 class Servidor():
-	"""docstring for Servidor"""
+    
+    
+    
 	def __init__(self, host="localhost", port=4000):
 
 		self.clientes = []
@@ -31,10 +52,12 @@ class Servidor():
 		procesar.start()
 
 		while True:
-			msg = input('->')
-			if msg == 'salir':
+			msg = input('-->')
+			if msg == ':q':
 				self.sock.close()
 				sys.exit()
+			elif msg == ':u':
+				print(self.clientes)
 			else:
 				pass
 
@@ -62,12 +85,18 @@ class Servidor():
 		while True:
 			if len(self.clientes) > 0:
 				for c in self.clientes:
+#					print(self.clientes)                    
 					try:
 						data = c.recv(1024)
 						if data:
+							print(data)
+							print(pickle.loads(data))
+                        
 							self.msg_to_all(data,c)
 					except:
 						pass
 
 
 s = Servidor()
+
+
