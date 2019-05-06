@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-fdfkdfjdjfdjf
-#afkahbfk
-#hoasdknasdasjnd
 """
 Created on Sat May  4 18:32:49 2019
 
@@ -42,25 +39,16 @@ class Servidor():
 				pass
 
 
-	def msg_to_all(self, msg, c):
+	def msg_to_all(self, msg, cliente):
 		for c in self.clientes:
 			try:
 				if c != cliente:
 					c.send(msg)
 			except:
 				self.clientes.remove(c)
-                
-                
-	def msg_pri(self, msg, cliente_ori, cliente_des):
-		if cliente_des in self.clientes:
-			try:
-				if cliente_des != cliente_ori:
-					cliente_des.send(msg)
-			except:
-				self.clientes.remove(cliente_ori)
 
 	def aceptarCon(self):
-		print("ceptarCon iniciado")
+		print("aceptarCon iniciado")
 		while True:
 			try:
 				conn, addr = self.sock.accept()
@@ -74,7 +62,6 @@ class Servidor():
 		while True:
 			if len(self.clientes) > 0:
 				for c in self.clientes:
-                    
 					try:
 						data = c.recv(1024)
 						if data:
