@@ -105,9 +105,9 @@ class Servidor():
         print("ProcesarCon iniciado")
         while True:
             if len(self.clientes) > 0:
-                for c in self.clientes.g:
+                for c in self.clientes:
                     try:
-                        data = c.recv(1024)
+                        data = c.getConn().recv(1024)
                         if data:
                             msg=pickle.loads(data)
                             print(msg)
