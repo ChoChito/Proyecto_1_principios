@@ -10,7 +10,6 @@ import socket
 import threading
 import sys
 import pickle
-aa
 
 class client():
 
@@ -49,10 +48,12 @@ class Servidor():
         procesar.daemon = True
         procesar.start()
         while True:
-            msg = input('->')
+            msg = input('me:')
             if msg == 'salir':
                 self.sock.close()
                 sys.exit()
+            elif msg == ':u':
+                print(self.clientes)
             else:
                 pass
             
