@@ -70,10 +70,13 @@ class Servidor():
         while True:
             try:
                 conn, addr = self.sock.accept()
+                print(conn)
+                print(addr)
                 conn.setblocking(False)
                 usuario='[Server] Cliente: Usuario'+str(addr[1])
                 print(usuario+' se ha conectado!')
                 self.clientes.append(conn)
+                
             except:
                 pass
             
@@ -88,9 +91,9 @@ class Servidor():
                             msg=pickle.loads(data)
                             print(msg)
                             if msg==':q':
-                                usuario='usuario'
-                                print(usuario+' se ha desconectado!')
-                                self.msg_to_all(usuario+' se ha desconectado!',c)
+                                usuario='[Server] Cliente: Usuario'
+                                print(usuario+str(addr[1])+' se ha desconectado!')
+                                self.msg_to_all(usuario+str(addr[1])+' se ha desconectado!',c)
                             else:       
                                 self.msg_to_all(data,c)
                     except:

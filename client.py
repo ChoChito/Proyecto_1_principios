@@ -17,7 +17,7 @@ class Cliente():
         print ('Bienvenido al mejor chat del universo!')
         print( )
         while True:
-            msg = input('->')
+            msg = input('me:')
             if msg != ':q':
                 self.send_msg(msg)
             else:
