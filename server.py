@@ -17,6 +17,8 @@ class client():
       self.username=username
       self.balance=balance
       self.conn=conn
+  def getConn(self):
+      return(self.conn)
 
   def getBalance(self):
       return(self.balance)
@@ -57,25 +59,44 @@ class Servidor():
             else:
                 pass
             
-    def msg_to_all(self, msg, cliente):
+    def msg_to_all(self, msg, cliente_ori):
         for c in self.clientes:
             try:
-                if c != cliente:
-                    c.send(msg)
+                if c != cliente_ori:
+                    c.getConn().send(msg)
             except:
                 self.clientes.remove(c)
+
+    def msg_pri(self, msg, cliente_ori,cliente_des):
+        for c in self.clientes:
+            try:
+                if cliente_ori==cliente_des:
+                    c.getConn().send(msg)
+                elif c == cliente_des:
+                    c.getConn().send(msg)
+            except:
+                self.clientes.remove(c)
+    
                 
     def aceptarCon(self):
         print("AceptarCon iniciado")
         while True:
             try:
                 conn, addr = self.sock.accept()
-                print(conn)
-                print(addr)
                 conn.setblocking(False)
-                usuario='[Server] Cliente: Usuario'+str(addr[1])
-                print(usuario+' se ha conectado!')
-                self.clientes.append(conn)
+                
+                username='Usuario'+str(addr[1])
+                print(username)
+                
+                balance=0
+                print(balance)
+                
+                
+                cliente=client(conn, balance, username)
+                print(cliente.getBalance(), cliente.balance)
+                usuario='[Server] Cliente: '+username
+                print(usuario, ' se ha conectado!')
+                self.clientes.append(cliente)
                 
             except:
                 pass
@@ -84,7 +105,7 @@ class Servidor():
         print("ProcesarCon iniciado")
         while True:
             if len(self.clientes) > 0:
-                for c in self.clientes:
+                for c in self.clientes.g:
                     try:
                         data = c.recv(1024)
                         if data:
